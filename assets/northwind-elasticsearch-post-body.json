@@ -1,0 +1,92 @@
+{
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "search_result_data": {
+          "mapping": {
+            "type": "keyword",
+            "index": "false"
+          },
+          "path_match": "search_result_data.*"
+        }
+      },
+      {
+        "category": {
+          "mapping": {
+            "type": "keyword",
+            "index": "false"
+          },
+          "path_match": "category.*"
+        }
+      },
+      {
+        "string_sort": {
+          "mapping": {
+            "analyzer": "lowercase_keyword_analyzer",
+            "type": "text",
+            "index": "true"
+          },
+          "path_match": "string_sort.*"
+        }
+      },
+      {
+        "number_sort": {
+          "mapping": {
+            "index": "false",
+            "type": "double"
+          },
+          "path_match": "number_sort.*"
+        }
+      }
+    ],
+    "properties": {
+      "search_data": {
+        "type": "nested",
+        "include_in_parent": false,
+        "properties": {
+          "full_text": {
+            "type": "text",
+            "analyzer": "standard",
+            "search_analyzer": "standard"
+          },
+          "string_facet": {
+            "type": "nested",
+            "properties": {
+              "facet-name": {
+                "type": "keyword",
+                "index": "false"
+              },
+              "facet-value": {
+                "type": "keyword",
+                "index": "false"
+              }
+            }
+          },
+          "number_facet": {
+            "type": "nested",
+            "properties": {
+              "facet-name": {
+                "type": "keyword",
+                "index": "false"
+              },
+              "facet-value": {
+                "type": "double"
+              }
+            }
+          }
+        }
+      },
+      "completion_terms": {
+        "type": "text",
+        "index": "true",
+        "analyzer": "standard"
+      },
+      "suggestion_terms": {
+        "type": "text",
+        "index": "true",
+        "analyzer": "standard",
+        "search_analyzer": "standard"
+      }
+    }
+  }
+}
