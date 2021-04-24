@@ -1,0 +1,45 @@
+{
+    "search_result_data": {
+        "id": 1,
+        "name": "Chai",
+        "number_of_products": 39,
+        "gross_price": 18.0000,
+        "quantity_per_unit": "10 boxes x 20 bags",
+        "category": "Beverages",
+        "supplier": "Exotic Liquids"
+    },
+    "search_data": {
+        "full_text": " Chai Beverages Exotic Liquids",
+        "string_facet": [
+            {
+                "facet_name": "supplier",
+                "facet_value": "Exotic Liquids"
+            },
+            {
+                "facet_name": "category",
+                "facet_value": "Beverages"
+            }
+        ],
+        "number_facet": [
+            {
+                "facet_name": "gross_price",
+                "facet_value": 18.0000
+            }
+        ]
+    },
+    "completion_terms": [
+        "Chai",
+        "Beverages",
+        "Exotic",
+        "Liquids"
+    ],
+    "suggestion_terms": [
+        "Chai"
+    ],
+    "number_sort": {
+        "gross_price": 18.0000
+    },
+    "string_sort": {
+        "name": "Chai"
+    }
+}
