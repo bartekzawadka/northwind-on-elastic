@@ -3,12 +3,12 @@ using System.IO;
 using CommandLine;
 using Serilog;
 using Tool.ElasticSeedBuilder.Builders;
-using Tool.ElasticSeedBuilder.Helpers;
 using Tool.ElasticSeedBuilder.Models;
+using Tools.Common.Helpers;
 
 namespace Tool.ElasticSeedBuilder
 {
-    internal static class Program
+    public static class Program
     {
         private static void Main(string[] args)
         {

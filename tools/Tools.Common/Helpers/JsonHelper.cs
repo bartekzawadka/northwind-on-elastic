@@ -3,7 +3,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Tool.ElasticSeedBuilder.Helpers
+namespace Tools.Common.Helpers
 {
     public class JsonHelper
     {
