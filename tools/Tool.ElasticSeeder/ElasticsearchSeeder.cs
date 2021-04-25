@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using Elasticsearch.Net;
+using Newtonsoft.Json;
 using Serilog;
 using Tool.ElasticSeeder.Configuration;
+using Tools.Common.Helpers;
+using Tools.Common.Models.Elastic;
 
 namespace Tool.ElasticSeeder
 {
@@ -26,7 +30,38 @@ namespace Tool.ElasticSeeder
             IElasticLowLevelClient client = GetElasticsearchClient();
             await CreateIndexIfNeededAsync(client);
             
-            //TODO: Iterate through products
+            ICollection<ProductForIndex> data = JsonHelper.ReadJsonFile<ICollection<ProductForIndex>>(_seederConfiguration.DataFilePath);
+            if (data == null || data.Count == 0)
+            {
+                Log.Logger.Warning("No elements found for indexing");
+                return;
+            }
+            
+            Log.Logger.Information($"{data.Count} products found to be indexed");
+            foreach (ProductForIndex productForIndex in data)
+            {
+                await IndexProductAsync(productForIndex, client);
+            }
+            
+            Log.Logger.Information("Seeding completed");
+        }
+
+        private async Task IndexProductAsync(ProductForIndex productForIndex, IElasticLowLevelClient client)
+        {
+            string insertData = JsonConvert.SerializeObject(productForIndex);
+            Log.Logger.Information($"Inserting product: [{productForIndex.SearchResultData.Id}]' {productForIndex.SearchResultData.Name}'");
+            StringResponse response = await client.IndexAsync<StringResponse>(
+                _elasticsearchConfiguration.IndexName,
+                productForIndex.SearchResultData.Id.ToString(),
+                PostData.String(insertData));
+            if (response.Success)
+            {
+                Log.Logger.Information($"Product [{productForIndex.SearchResultData.Id}]' {productForIndex.SearchResultData.Name}' successfuly indexed");
+            }
+            else
+            {
+                Log.Logger.Error($"Unable to index product (ID: {productForIndex.SearchResultData.Id}): {response.Body}");
+            }
         }
 
         private async Task CreateIndexIfNeededAsync(IElasticLowLevelClient client)

@@ -22,7 +22,7 @@
       {
         "string_sort": {
           "mapping": {
-            "analyzer": "lowercase_keyword_analyzer",
+            "analyzer": "standard",
             "type": "text",
             "index": "true"
           },
