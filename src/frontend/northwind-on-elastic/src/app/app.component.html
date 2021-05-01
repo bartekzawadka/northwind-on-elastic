@@ -1,3 +1,13 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>
+        Northwind on Elastic
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-searchbar debounce="500" (ionChange)="searchBarOnChange($event.detail.value)"></ion-searchbar>
+  <ion-content>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-content>
 </ion-app>

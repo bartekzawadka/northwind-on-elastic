@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import * as elasticsearch from 'elasticsearch-browser';
+import Product from "../models/product";
 //import {Client} from '@elastic/elasticsearch';
 //const { Client } = require('@elastic/elasticsearch');
 
@@ -12,24 +13,36 @@ export class ElasticsearchService {
   client: elasticsearch.Client;
 
   constructor() {
-    console.log(environment.elasticEndpoint);
 
-    this.client = new elasticsearch.Client({
+    let options = {
       //node: 'https://' + environment.elasticEndpoint,
-      host: 'https://' + environment.elasticEndpoint,
-      auth: {
-        username: environment.elasticUsername,
-        password: environment.elasticPassword
+      host: environment.elasticEndpoint,
+      http:{
+        cors: {
+          enabled: false
+        }
       },
       //rejectUnauthorized: false,
       ssl: {
         rejectUnauthorized: true
       }
-    });
+    };
+
+    if(environment.elasticUsername){
+      options['auth'] = {
+        username: environment.elasticUsername,
+          password: environment.elasticPassword
+      };
+    }
+
+    console.log(options);
+
+    this.client = new elasticsearch.Client(options);
   }
 
-  getSuggestions(phrase: string): Observable<any> {
+  getSuggestions(phrase: string): Observable<Product[]> {
     return new Observable<any>(subscriber => {
+      console.log(phrase);
       this.client.search({
         index: environment.elasticIndexName,
         body: {
@@ -46,6 +59,31 @@ export class ElasticsearchService {
         if (err) {
           subscriber.error(err);
         } else {
+          console.log('Full response:');
+          console.log(result);
+          if(
+            result.suggest
+            && result.suggest.autocomplete
+            && result.suggest.autocomplete.length > 0
+            && result.suggest.autocomplete[0].options
+            && result.suggest.autocomplete[0].options.length > 0){
+            const results = result.suggest.autocomplete[0].options.map(x => {
+              const inputProduct = x._source.search_result_data;
+              const product = new Product();
+              product.id = inputProduct.id;
+              product.name = inputProduct.name;
+              product.numberOfProducts = inputProduct.number_of_products;
+              product.category = inputProduct.category;
+              product.supplier = inputProduct.supplier;
+              product.quantityPerUnit = inputProduct.quantity_per_unit;
+
+              return product;
+            });
+
+            subscriber.next(results);
+          }else{
+            subscriber.next([]);
+          }
           subscriber.next(result.body);
         }
       });

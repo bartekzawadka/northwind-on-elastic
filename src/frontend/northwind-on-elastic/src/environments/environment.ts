@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  elasticEndpoint: 'https://52.137.60.251:9200',
-  elasticIndexName: 'northwind-test',
-  elasticUsername: 'elastic',
-  elasticPassword: 'pass'
+  elasticEndpoint: 'http://localhost:9200',
+  elasticIndexName: 'northwind',
+  elasticUsername: '',
+  elasticPassword: ''
 };
 
 /*

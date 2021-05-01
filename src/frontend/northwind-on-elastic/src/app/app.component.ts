@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {FilterServiceService} from './services/filter-service.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private filterService: FilterServiceService) {}
+
+  searchBarOnChange(value: string){
+    this.filterService.setCurrentFilterValue(value);
+  }
 }

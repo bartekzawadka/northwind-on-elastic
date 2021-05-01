@@ -1,0 +1,18 @@
+<ion-content [fullscreen]="false" *ngIf="!products || products.length <= 0">
+  <div class="results-placeholder">
+    <ion-text mode="ios"><strong>No results</strong></ion-text>
+  </div>
+</ion-content>
+
+<ion-list *ngIf="products && products.length > 0">
+  <ion-list-header>
+    <ion-label>Suggestions results</ion-label>
+  </ion-list-header>
+  <ion-item *ngFor="let result of products">
+    <ion-label>
+      <h2>{{result.name}} ({{result.supplier}})</h2>
+      <h3>Category: {{result.category}}</h3>
+      <p>{{result.numberOfProducts}} avaailable. Quantity per unit: {{result.quantityPerUnit}}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>

@@ -102,7 +102,11 @@ namespace Tool.ElasticSeeder
         {
             var node = new Uri($"{_elasticsearchConfiguration.Address}:{_elasticsearchConfiguration.Port}");
             var config = new ConnectionConfiguration(node);
-            config.BasicAuthentication(_elasticsearchConfiguration.Username, _elasticsearchConfiguration.Password);
+            if (!string.IsNullOrWhiteSpace(_elasticsearchConfiguration.Username))
+            {
+                config.BasicAuthentication(_elasticsearchConfiguration.Username, _elasticsearchConfiguration.Password);
+            }
+
             config.ServerCertificateValidationCallback((o, certificate, arg3, arg4) => true);
             return new ElasticLowLevelClient(config);
         }
