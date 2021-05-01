@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('../fulltext-results/fulltext-results.module').then( m => m.FulltextResultsPageModule)
       },
       {
+        path: 'fuzziness',
+        loadChildren: () => import('../fuzziness-results/fuzziness-results.module').then( m => m.FuzzinessResultsPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/suggestions',
         pathMatch: 'full'

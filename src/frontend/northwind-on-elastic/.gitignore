@@ -4,6 +4,9 @@
 # Environments
 environment.local.ts
 
+# Package-lock
+package-lock.json
+
 *~
 *.sw[mnpcod]
 .tmp

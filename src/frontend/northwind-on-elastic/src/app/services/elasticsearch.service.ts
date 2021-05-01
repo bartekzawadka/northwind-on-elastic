@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
 import * as elasticsearch from 'elasticsearch-browser';
-import Product from "../models/product";
-//import {Client} from '@elastic/elasticsearch';
-//const { Client } = require('@elastic/elasticsearch');
+import Product from '../models/product';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +12,15 @@ export class ElasticsearchService {
 
   constructor() {
 
-    let options = {
-      //node: 'https://' + environment.elasticEndpoint,
+    const options = {
       host: environment.elasticEndpoint,
       http:{
         cors: {
           enabled: false
         }
       },
-      //rejectUnauthorized: false,
       ssl: {
-        rejectUnauthorized: true
+        rejectUnauthorized: false
       }
     };
 
@@ -35,14 +31,11 @@ export class ElasticsearchService {
       };
     }
 
-    console.log(options);
-
     this.client = new elasticsearch.Client(options);
   }
 
   getSuggestions(phrase: string): Observable<Product[]> {
     return new Observable<any>(subscriber => {
-      console.log(phrase);
       this.client.search({
         index: environment.elasticIndexName,
         body: {
@@ -59,8 +52,6 @@ export class ElasticsearchService {
         if (err) {
           subscriber.error(err);
         } else {
-          console.log('Full response:');
-          console.log(result);
           if(
             result.suggest
             && result.suggest.autocomplete
@@ -84,7 +75,6 @@ export class ElasticsearchService {
           }else{
             subscriber.next([]);
           }
-          subscriber.next(result.body);
         }
       });
     });
