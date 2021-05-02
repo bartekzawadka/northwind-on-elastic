@@ -34,6 +34,32 @@ export class ElasticsearchService {
     this.client = new elasticsearch.Client(options);
   }
 
+  getFullTextSearchResults(phrase: string) {
+    return new Observable<any>(subscriber => {
+      this.client.search({
+        index: environment.elasticIndexName,
+        body: {
+          query: {
+            nested: {
+              path: 'search_data',
+              query: {
+                match: {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
+                  'search_data.full_text': phrase
+                }
+              }
+            }
+          }
+        }
+      }, (err, result) => {
+        if(err){
+          subscriber.error(err);
+          return;
+        }
+      });
+    });
+  }
+
   getSuggestions(phrase: string): Observable<Product[]> {
     return new Observable<any>(subscriber => {
       this.client.search({
