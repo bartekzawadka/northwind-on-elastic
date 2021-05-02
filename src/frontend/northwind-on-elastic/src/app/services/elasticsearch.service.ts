@@ -14,7 +14,7 @@ export class ElasticsearchService {
 
     const options = {
       host: environment.elasticEndpoint,
-      http:{
+      http: {
         cors: {
           enabled: false
         }
@@ -24,10 +24,10 @@ export class ElasticsearchService {
       }
     };
 
-    if(environment.elasticUsername){
+    if (environment.elasticUsername) {
       options['auth'] = {
         username: environment.elasticUsername,
-          password: environment.elasticPassword
+        password: environment.elasticPassword
       };
     }
 
@@ -52,9 +52,33 @@ export class ElasticsearchService {
           }
         }
       }, (err, result) => {
-        if(err){
+        if (err) {
           subscriber.error(err);
           return;
+        }
+
+        console.log(result);
+
+        if (result
+          && result.hits
+          && result.hits.hits
+          && result.hits.hits.length > 0) {
+          const results = result.hits.hits.map(x => {
+            const inputProduct = x._source.search_result_data;
+
+            const product = new Product();
+            product.id = inputProduct.id;
+            product.name = inputProduct.name;
+            product.numberOfProducts = inputProduct.number_of_products;
+            product.category = inputProduct.category;
+            product.supplier = inputProduct.supplier;
+            product.quantityPerUnit = inputProduct.quantity_per_unit;
+
+            return product;
+          });
+          subscriber.next(results);
+        } else {
+          subscriber.next([]);
         }
       });
     });
@@ -78,12 +102,12 @@ export class ElasticsearchService {
         if (err) {
           subscriber.error(err);
         } else {
-          if(
+          if (
             result.suggest
             && result.suggest.autocomplete
             && result.suggest.autocomplete.length > 0
             && result.suggest.autocomplete[0].options
-            && result.suggest.autocomplete[0].options.length > 0){
+            && result.suggest.autocomplete[0].options.length > 0) {
             const results = result.suggest.autocomplete[0].options.map(x => {
               const inputProduct = x._source.search_result_data;
               const product = new Product();
@@ -98,7 +122,7 @@ export class ElasticsearchService {
             });
 
             subscriber.next(results);
-          }else{
+          } else {
             subscriber.next([]);
           }
         }
