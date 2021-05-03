@@ -65,8 +65,6 @@ export class ElasticsearchService {
           return;
         }
 
-        console.log(result);
-
         if (result
           && result.hits
           && result.hits.hits
