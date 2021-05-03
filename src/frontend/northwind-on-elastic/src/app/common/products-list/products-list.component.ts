@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import Product from '../../models/product';
+import {PagedResult} from '../../models/paged-result';
 
 @Component({
   selector: 'app-products-list',
@@ -7,10 +8,16 @@ import Product from '../../models/product';
   styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent implements OnInit {
-  @Input() products: Product[] = [];
+  @Input() pageData: PagedResult<Product> = new PagedResult<Product>();
   @Input() title = '';
+
+  @Output() onLoadMore = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {}
 
+  onLoadMoreClick() {
+    this.onLoadMore.emit();
+  }
 }

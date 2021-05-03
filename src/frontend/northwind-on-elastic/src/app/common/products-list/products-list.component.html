@@ -1,6 +1,15 @@
-<ion-list *ngIf="products && products.length > 0">
+<ion-list *ngIf="pageData && pageData.data && pageData.data.length > 0">
   <ion-list-header>
     <ion-label>{{title}}</ion-label>
   </ion-list-header>
-  <app-products-list-element *ngFor="let result of products" [product]="result"></app-products-list-element>
+  <app-products-list-element *ngFor="let result of pageData.data" [product]="result"></app-products-list-element>
 </ion-list>
+<ion-button
+  mode="ios"
+  fill="true"
+  *ngIf="pageData && pageData.data && pageData.total > pageData.data.length"
+  (click)="onLoadMoreClick()">
+  <ion-icon mode="ios" name="refresh"></ion-icon>
+  Load more
+</ion-button>
+

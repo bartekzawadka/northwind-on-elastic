@@ -6,7 +6,10 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-searchbar debounce="500" (ionChange)="searchBarOnChange($event.detail.value)"></ion-searchbar>
+  <ion-searchbar
+    debounce="500"
+    (ionChange)="searchBarOnChange($event.detail.value)"
+    (keydown.enter)="onEnter()"></ion-searchbar>
   <ion-content>
     <ion-router-outlet></ion-router-outlet>
   </ion-content>

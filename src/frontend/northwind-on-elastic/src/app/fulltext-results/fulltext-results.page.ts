@@ -1,17 +1,16 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FilterServiceService} from '../services/filter-service.service';
 import {ElasticsearchService} from '../services/elasticsearch.service';
-import Product from '../models/product';
-import {PageBase} from '../common/page-base';
+import {ProductsPageBase} from '../common/products-page-base';
 import {AlertController} from '@ionic/angular';
+import {PagingQuery} from '../models/paging-query';
 
 @Component({
   selector: 'app-fulltext-results',
   templateUrl: './fulltext-results.page.html',
   styleUrls: ['./fulltext-results.page.scss'],
 })
-export class FulltextResultsPage extends PageBase implements OnInit, OnDestroy {
-  public products: Product[] = [];
+export class FulltextResultsPage extends ProductsPageBase implements OnInit, OnDestroy {
 
   constructor(
     protected filterService: FilterServiceService,
@@ -20,12 +19,7 @@ export class FulltextResultsPage extends PageBase implements OnInit, OnDestroy {
     super(filterService, alertController);
   }
 
-  loadData(value: string){
-    this.elasticsearchService.getFullTextSearchResults(value).subscribe(results => {
-      this.products = results;
-    }, async error => {
-      console.log(error);
-      await this.showMessage('Error', 'Receving results failed. Check console for details');
-    });
+  getData(query: PagingQuery){
+    return this.elasticsearchService.getFullTextSearchResults(query);
   }
 }

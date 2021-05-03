@@ -7,9 +7,15 @@ import {FilterServiceService} from './services/filter-service.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  searchbarValue = '';
   constructor(private filterService: FilterServiceService) {}
 
   searchBarOnChange(value: string){
+    this.searchbarValue = value;
     this.filterService.setCurrentFilterValue(value);
+  }
+
+  onEnter() {
+    this.filterService.setCurrentFilterValue(this.searchbarValue);
   }
 }
