@@ -18,6 +18,9 @@ import {NoResultsComponentComponent} from '../common/no-results-component/no-res
     IonicModule,
     FulltextResultsPageRoutingModule
   ],
+  exports: [
+    NoResultsComponentComponent
+  ],
   declarations: [
     FulltextResultsPage,
     NoResultsComponentComponent,

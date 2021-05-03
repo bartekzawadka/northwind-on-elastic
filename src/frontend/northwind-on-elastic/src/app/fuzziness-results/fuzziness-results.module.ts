@@ -7,14 +7,22 @@ import { IonicModule } from '@ionic/angular';
 import { FuzzinessResultsPageRoutingModule } from './fuzziness-results-routing.module';
 
 import { FuzzinessResultsPage } from './fuzziness-results.page';
+import {NoResultsComponentComponent} from '../common/no-results-component/no-results-component.component';
+import {ProductsListElementComponent} from '../common/products-list-element/products-list-element.component';
+import {ProductsListComponent} from '../common/products-list/products-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FuzzinessResultsPageRoutingModule
+    FuzzinessResultsPageRoutingModule,
   ],
-  declarations: [FuzzinessResultsPage]
+  declarations: [
+    FuzzinessResultsPage,
+    NoResultsComponentComponent,
+    ProductsListElementComponent,
+    ProductsListComponent
+  ]
 })
 export class FuzzinessResultsPageModule {}

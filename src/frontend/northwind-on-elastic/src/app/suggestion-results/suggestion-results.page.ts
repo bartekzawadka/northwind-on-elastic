@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FilterServiceService} from '../services/filter-service.service';
 import {ElasticsearchService} from '../services/elasticsearch.service';
 import Product from '../models/product';
-import {PageBase} from '../common/PageBase';
+import {PageBase} from '../common/page-base';
 import {AlertController} from '@ionic/angular';
 
 @Component({

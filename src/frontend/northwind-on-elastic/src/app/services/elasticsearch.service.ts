@@ -34,23 +34,31 @@ export class ElasticsearchService {
     this.client = new elasticsearch.Client(options);
   }
 
-  getFullTextSearchResults(phrase: string) {
-    return new Observable<any>(subscriber => {
-      this.client.search({
-        index: environment.elasticIndexName,
-        body: {
-          query: {
-            nested: {
-              path: 'search_data',
-              query: {
-                match: {
-                  // eslint-disable-next-line @typescript-eslint/naming-convention
-                  'search_data.full_text': phrase
-                }
+  getFullTextSearchResults(phrase: string, fuzziness: string = undefined) {
+    const body = {
+      query: {
+        nested: {
+          path: 'search_data',
+            query: {
+            match: {
+              // eslint-disable-next-line @typescript-eslint/naming-convention
+              'search_data.full_text': {
+                query: phrase
               }
             }
           }
         }
+      }
+    };
+
+    if(fuzziness){
+      body.query.nested.query.match['search_data.full_text']['fuzziness'] = fuzziness;
+    }
+
+    return new Observable<any>(subscriber => {
+      this.client.search({
+        index: environment.elasticIndexName,
+        body
       }, (err, result) => {
         if (err) {
           subscriber.error(err);
