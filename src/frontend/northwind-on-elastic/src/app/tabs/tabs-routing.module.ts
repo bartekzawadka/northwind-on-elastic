@@ -6,13 +6,17 @@ import { TabsPage } from './tabs.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tabs/suggestions',
+    redirectTo: '/tabs/all-products',
     pathMatch: 'full'
   },
   {
     path: 'tabs',
     component: TabsPage,
     children: [
+      {
+        path: 'all-products',
+        loadChildren: () => import('../all-products-list/all-products-list.module').then(m => m.AllProductsListPageModule)
+      },
       {
         path: 'suggestions',
         loadChildren: () => import('../suggestion-results/suggestion-results.module').then(m => m.SuggestionResultsPageModule)
@@ -27,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/suggestions',
+        redirectTo: '/tabs/all-products',
         pathMatch: 'full'
       }
     ]

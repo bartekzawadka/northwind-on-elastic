@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges} from '@angular/core';
 import Product from '../../models/product';
 import {PagedResult} from '../../models/paged-result';
 
@@ -8,16 +8,34 @@ import {PagedResult} from '../../models/paged-result';
   styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent implements OnInit {
-  @Input() pageData: PagedResult<Product> = new PagedResult<Product>();
+  private _pageData: PagedResult<Product> = new PagedResult<Product>();
+  private currentLoaderTarget: any = undefined;
+
+  get pageData(): PagedResult<Product>{
+    return this._pageData;
+  }
+
+  @Input() set pageData(value: PagedResult<Product>){
+    this._pageData = value;
+    if(this.currentLoaderTarget){
+      this.currentLoaderTarget.complete();
+    }
+  }
   @Input() title = '';
 
   @Output() onLoadMore = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  onLoadMoreClick() {
-    this.onLoadMore.emit();
+  loadData(event) {
+    this.currentLoaderTarget = event.target;
+    if(this.pageData.data.length === this.pageData.total){
+      event.target.disabled = true;
+    }else{
+      this.onLoadMore.emit();
+    }
   }
 }

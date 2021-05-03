@@ -36,6 +36,18 @@ export class ElasticsearchService {
     this.client = new elasticsearch.Client(options);
   }
 
+  getAllProducts(query: PagingQuery): Observable<PagedResult<Product>> {
+    return new Observable<PagedResult<Product>>(subscriber => {
+      this.client.search({
+        index: environment.elasticIndexName,
+        body: {
+          from: query.from,
+          size: query.size
+        }
+      }, (err, result) => this.getProducts(err, result, subscriber));
+    });
+  }
+
   getFullTextSearchResults(query: PagingQuery, fuzziness: string = undefined): Observable<PagedResult<Product>> {
     const body = {
       from: query.from,
@@ -63,25 +75,7 @@ export class ElasticsearchService {
       this.client.search({
         index: environment.elasticIndexName,
         body
-      }, (err, result) => {
-        if (err) {
-          subscriber.error(err);
-          return;
-        }
-
-        if (result
-          && result.hits
-          && result.hits.hits
-          && result.hits.hits.length > 0) {
-          const results = result.hits.hits.map(x => this.mapToProduct(x));
-          const page = new PagedResult<Product>();
-          page.data = results;
-          page.total = result.hits.total.value;
-          subscriber.next(page);
-        } else {
-          subscriber.next(new PagedResult<Product>());
-        }
-      });
+      }, (err, result) => this.getProducts(err, result, subscriber));
     });
   }
 
@@ -123,6 +117,26 @@ export class ElasticsearchService {
         }
       });
     });
+  }
+
+  private getProducts(err, result, subscriber) {
+    if (err) {
+      subscriber.error(err);
+      return;
+    }
+
+    if (result
+      && result.hits
+      && result.hits.hits
+      && result.hits.hits.length > 0) {
+      const results = result.hits.hits.map(x => this.mapToProduct(x));
+      const page = new PagedResult<Product>();
+      page.data = results;
+      page.total = result.hits.total.value;
+      subscriber.next(page);
+    } else {
+      subscriber.next(new PagedResult<Product>());
+    }
   }
 
   private mapToProduct(responseElement: any): Product {

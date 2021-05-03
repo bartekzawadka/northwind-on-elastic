@@ -4,26 +4,23 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FulltextResultsPageRoutingModule } from './fulltext-results-routing.module';
+import { AllProductsListPageRoutingModule } from './all-products-list-routing.module';
 
-import { FulltextResultsPage } from './fulltext-results.page';
-import {ProductsListComponent} from '../common/products-list/products-list.component';
+import { AllProductsListPage } from './all-products-list.page';
 import {NoResultsComponentComponent} from '../common/no-results-component/no-results-component.component';
+import {ProductsListComponent} from '../common/products-list/products-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    FulltextResultsPageRoutingModule
-  ],
-  exports: [
-    NoResultsComponentComponent
+    AllProductsListPageRoutingModule
   ],
   declarations: [
-    FulltextResultsPage,
+    AllProductsListPage,
     NoResultsComponentComponent,
     ProductsListComponent
   ]
 })
-export class FulltextResultsPageModule {}
+export class AllProductsListPageModule {}

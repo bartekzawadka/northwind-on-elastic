@@ -8,7 +8,6 @@ import { FuzzinessResultsPageRoutingModule } from './fuzziness-results-routing.m
 
 import { FuzzinessResultsPage } from './fuzziness-results.page';
 import {NoResultsComponentComponent} from '../common/no-results-component/no-results-component.component';
-import {ProductsListElementComponent} from '../common/products-list-element/products-list-element.component';
 import {ProductsListComponent} from '../common/products-list/products-list.component';
 
 @NgModule({
@@ -21,7 +20,6 @@ import {ProductsListComponent} from '../common/products-list/products-list.compo
   declarations: [
     FuzzinessResultsPage,
     NoResultsComponentComponent,
-    ProductsListElementComponent,
     ProductsListComponent
   ]
 })

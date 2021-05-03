@@ -38,10 +38,13 @@ export abstract class ProductsPageBase implements OnInit, OnDestroy {
   loadMoreData() {
     this.getData(this.buildPagingQuery(false))
       .subscribe(results => {
+        const page = new PagedResult<Product>();
+        page.data = this.productsPage.data;
         results.data.forEach(value => {
-          this.productsPage.data.push(value);
+          page.data.push(value);
         });
-        this.productsPage.total = results.total;
+        page.total = results.total;
+        this.productsPage = page;
       }, async error => await this.handleGetDataError(error));
   }
 

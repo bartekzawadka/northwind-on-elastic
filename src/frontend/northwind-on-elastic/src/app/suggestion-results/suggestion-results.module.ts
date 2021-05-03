@@ -9,7 +9,6 @@ import { SuggestionResultsPageRoutingModule } from './suggestion-results-routing
 import { SuggestionResultsPage } from './suggestion-results.page';
 import {NoResultsComponentComponent} from '../common/no-results-component/no-results-component.component';
 import {ProductsListComponent} from '../common/products-list/products-list.component';
-import {ProductsListElementComponent} from '../common/products-list-element/products-list-element.component';
 
 @NgModule({
     imports: [
@@ -21,7 +20,6 @@ import {ProductsListElementComponent} from '../common/products-list-element/prod
   declarations: [
     SuggestionResultsPage,
     NoResultsComponentComponent,
-    ProductsListComponent,
-    ProductsListElementComponent]
+    ProductsListComponent]
 })
 export class SuggestionResultsPageModule {}

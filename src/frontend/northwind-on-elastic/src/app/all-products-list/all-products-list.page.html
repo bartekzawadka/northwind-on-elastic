@@ -1,0 +1,6 @@
+<app-no-results-component *ngIf="!productsPage || !productsPage.data || productsPage.data.length <= 0"></app-no-results-component>
+
+<app-products-list
+  [pageData]="productsPage"
+  (onLoadMore)="loadMoreData()"
+  title="All products search results"></app-products-list>
