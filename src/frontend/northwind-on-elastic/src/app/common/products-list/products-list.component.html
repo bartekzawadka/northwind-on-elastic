@@ -1,0 +1,6 @@
+<ion-list *ngIf="products && products.length > 0">
+  <ion-list-header>
+    <ion-label>{{title}}</ion-label>
+  </ion-list-header>
+  <app-products-list-element *ngFor="let result of products" [product]="result"></app-products-list-element>
+</ion-list>

@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { FulltextResultsPageRoutingModule } from './fulltext-results-routing.module';
 
 import { FulltextResultsPage } from './fulltext-results.page';
+import {ProductsListComponent} from '../common/products-list/products-list.component';
+import {ProductsListElementComponent} from '../common/products-list-element/products-list-element.component';
+import {NoResultsComponentComponent} from '../common/no-results-component/no-results-component.component';
 
 @NgModule({
   imports: [
@@ -15,6 +18,11 @@ import { FulltextResultsPage } from './fulltext-results.page';
     IonicModule,
     FulltextResultsPageRoutingModule
   ],
-  declarations: [FulltextResultsPage]
+  declarations: [
+    FulltextResultsPage,
+    NoResultsComponentComponent,
+    ProductsListComponent,
+    ProductsListElementComponent
+  ]
 })
 export class FulltextResultsPageModule {}
